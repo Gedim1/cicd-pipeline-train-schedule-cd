@@ -8,21 +8,21 @@ pipeline {
                 archiveArtifacts artifacts: 'dist/trainSchedule.zip'
             }
         }
-        stage('DeploytoStaging') {
+        stage('DeployToStaging') {
             when {
                 branch 'master'
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'webserverID', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'webserverID', usernameVariable: 'USERNAME', keyFileVariable: 'FILEKEY') {
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
                         publishers: [
                             sshPublisherDesc(
-                                configName: 'staging',
+                                configName: 'production',
                                 sshCredentials: [
                                     username: "$USERNAME",
-                                    encryptedPassphrase: "$USERPASS"
+                                    key: "$FILEKEY"
                                 ], 
                                 transfers: [
                                     sshTransfer(
@@ -38,14 +38,14 @@ pipeline {
                 }
             }
         }
-        stage('DeploytoProduction') {
+        stage('DeployToProduction') {
             when {
                 branch 'master'
             }
             steps {
                 input 'Does the staging environment look OK?'
                 milestone(1)
-                withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'webserverID', usernameVariable: 'USERNAME', keyFileVariable: 'FILEKEY') {
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
@@ -54,7 +54,7 @@ pipeline {
                                 configName: 'production',
                                 sshCredentials: [
                                     username: "$USERNAME",
-                                    encryptedPassphrase: "$USERPASS"
+                                    key: "$FILEKEY"
                                 ], 
                                 transfers: [
                                     sshTransfer(
