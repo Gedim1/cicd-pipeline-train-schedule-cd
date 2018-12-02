@@ -4,7 +4,7 @@ This is updated
 
 ## Running the app
 
-You need a Java JDK 7 or later to run the build. You can run the build like this:
+You need a Java JDK 7 or lajkkjkjter to run the build. You can run the build like this:
 
     ./gradlew build
 
