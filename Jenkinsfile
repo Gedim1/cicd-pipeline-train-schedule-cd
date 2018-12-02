@@ -13,16 +13,16 @@ pipeline {
                 branch 'master'
             }
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'webserverID', usernameVariable: 'USERNAME', keyFileVariable: 'FILEKEY') {
+                withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
                         publishers: [
                             sshPublisherDesc(
-                                configName: 'production',
+                                configName: 'staging',
                                 sshCredentials: [
                                     username: "$USERNAME",
-                                    key: "$FILEKEY"
+                                    encryptedPassphrase: "$USERPASS"
                                 ], 
                                 transfers: [
                                     sshTransfer(
@@ -45,7 +45,7 @@ pipeline {
             steps {
                 input 'Does the staging environment look OK?'
                 milestone(1)
-                withCredentials([sshUserPrivateKey(credentialsId: 'webserverID', usernameVariable: 'USERNAME', keyFileVariable: 'FILEKEY') {
+                withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
@@ -54,7 +54,7 @@ pipeline {
                                 configName: 'production',
                                 sshCredentials: [
                                     username: "$USERNAME",
-                                    key: "$FILEKEY"
+                                    encryptedPassphrase: "$USERPASS"
                                 ], 
                                 transfers: [
                                     sshTransfer(
