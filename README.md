@@ -1,6 +1,6 @@
 # cicd-pipeline-train-schedule-cd
 
-This is fuckedup a asd siasdasdasdmple train is not going schedule app written using nodejs. It is intended to be used as a sample application for a seriasdadses of hands-on learning activities.
+This is fuckedup a asd siasdasdasdmple train is not going schedule app written using nodejs. It is intended to be used as a sample application for a seriasdadsasdaasdes of hands-on learning activities.
 
 ## Running the app
 
