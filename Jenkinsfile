@@ -14,7 +14,7 @@ pipeline {
             }
             steps {
                 script {
-                    app = docker.build("docker-linixacademy-ci-cd")
+                    app = docker.build("docker-linixacademy-ci-cd:latest")
                     app.inside {
                         sh 'echo $(curl localhost:8080)'
                     }
